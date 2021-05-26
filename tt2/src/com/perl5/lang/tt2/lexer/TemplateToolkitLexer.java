@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 Alexandr Evstigneev
+ * Copyright 2015-2021 Alexandr Evstigneev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,7 +100,9 @@ public class TemplateToolkitLexer extends TemplateToolkitLexerGenerated implemen
           currentState != LEX_SQ_STRING &&
           (closeTagLength = checkCloseTagAndGetLength(buffer, tokenStart, bufferEnd)) > 0) {
         endTemplate(tokenStart, closeTagLength);
-        return TT2_CLOSE_TAG;
+        pushPreparsedToken(getTokenStart(), getTokenEnd(), TT2_CLOSE_TAG);
+        setTokenEnd(getTokenStart());
+        return TT2_SEMI;
       }
       else if (isLineComment(buffer, tokenStart, bufferEnd)) {
         return lexLineComment(buffer, tokenStart, bufferEnd);
