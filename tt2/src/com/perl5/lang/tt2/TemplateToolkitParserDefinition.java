@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 Alexandr Evstigneev
+ * Copyright 2015-2021 Alexandr Evstigneev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,10 @@ public class TemplateToolkitParserDefinition implements ParserDefinition, Templa
   public static final TokenSet COMMENTS = TokenSet.create(
     TT2_HTML,
     LINE_COMMENT,
-    BLOCK_COMMENT
+    BLOCK_COMMENT,
+    TT2_OPEN_TAG,
+    TT2_CLOSE_TAG,
+    TT2_OUTLINE_TAG
   );
 
   public static final TokenSet WHITESPACES_AND_COMMENTS = TokenSet.orSet(
