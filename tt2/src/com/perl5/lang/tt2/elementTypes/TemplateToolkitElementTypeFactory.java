@@ -869,6 +869,14 @@ public class TemplateToolkitElementTypeFactory extends PodElementTypeFactory {
         }
       };
     }
+    if (name.equals("CONDITIONAL_EXPR")) {
+      return new TemplateToolkitElementType(name) {
+        @Override
+        public @NotNull PsiElement getPsiElement(@NotNull ASTNode node) {
+          return new PsiConditionalExprImpl(node);
+        }
+      };
+    }
 
     throw new RuntimeException("Missing element: " + name);
   }

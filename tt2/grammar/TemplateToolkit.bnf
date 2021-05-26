@@ -161,13 +161,13 @@ private statement ::=
   use_directive |
 //  view |  see #2378
   rawperl_block |
-  expr [expression_modifier+] |
+  expr [conditional_expr+] |
   meta_directive |
   tags_directive
 
 private directive ::=
   setlist |
-  atomdir [expression_modifier+] |
+  atomdir [conditional_expr+] |
   if_block |
   unless_block |
   switch_block |
@@ -196,7 +196,7 @@ private atomdir ::=
   wrapper_block |
   filter_block
 
-private expression_modifier ::=
+left conditional_expr ::=
   if_directive |
   unless_directive |
   foreach_directive |
