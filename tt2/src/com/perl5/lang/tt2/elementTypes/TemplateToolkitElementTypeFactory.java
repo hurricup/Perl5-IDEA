@@ -213,15 +213,6 @@ public class TemplateToolkitElementTypeFactory extends PodElementTypeFactory {
       };
     }
 
-    if (name.equals("DIRECTIVE_POSTFIX")) {
-      return new TemplateToolkitElementType(name) {
-        @Override
-        public @NotNull PsiElement getPsiElement(@NotNull ASTNode node) {
-          return new PsiDirectivePostfixImpl(node);
-        }
-      };
-    }
-
     if (name.equals("DQ_STRING_EXPR")) {
       return new TemplateToolkitElementType(name) {
         @Override
@@ -339,11 +330,20 @@ public class TemplateToolkitElementTypeFactory extends PodElementTypeFactory {
       };
     }
 
-    if (name.equals("FILTER_ELEMENT_EXPR")) {
+    if (name.equals("CAPTURE")) {
       return new TemplateToolkitElementType(name) {
         @Override
         public @NotNull PsiElement getPsiElement(@NotNull ASTNode node) {
-          return new PsiFilterElementExprImpl(node);
+          return new PsiCaptureImpl(node);
+        }
+      };
+    }
+
+    if (name.equals("MACRO_ARGUMENTS")) {
+      return new TemplateToolkitElementType(name) {
+        @Override
+        public @NotNull PsiElement getPsiElement(@NotNull ASTNode node) {
+          return new PsiMacroArgumentsImpl(node);
         }
       };
     }

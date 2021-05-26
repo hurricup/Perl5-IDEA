@@ -50,7 +50,6 @@
 	TT2_OPEN_TAG="[%"
 	TT2_CLOSE_TAG="%]"
 	TT2_OUTLINE_TAG="%%"
-	TT2_HARD_NEWLINE="OUTLINE_END"
 
 	TT2_IDENTIFIER="TT2_IDENTIFIER"
 	TT2_SYMBOL="TT2_SYMBOL"
@@ -205,8 +204,7 @@ private expression_modifier ::=
   wrapper_directive |
   filter_directive
 
-private capture ::=
-  identifier_expr TT2_ASSIGN mdir
+capture ::= identifier_expr TT2_ASSIGN mdir
 
 private mdir ::= directive | anon_block
 
@@ -240,16 +238,16 @@ private format_elements ::=
 	sq_string_expr
 
 foreach_directive ::= TT2_FOREACH [foreach_iterator_] foreach_iterable {pin=1}
-private foreach_iterator_ ::= foreach_iterator {TT2_ASSIGN !TT2_CLOSE_TAG|TT2_IN} {pin=2}
+private foreach_iterator_ ::= foreach_iterator {TT2_ASSIGN |TT2_IN} {pin=2}
 foreach_iterator ::= keyword_or_identifier_term {pin=2}
 foreach_iterable ::= expr
 
 foreach_block ::= foreach_directive chunk * end_directive // fake rule to generate psi
 
-private strings_argument ::= string_argument (TT2_PLUS !TT2_CLOSE_TAG string_argument) *
+private strings_argument ::= string_argument (TT2_PLUS  string_argument) *
 private string_argument ::= dq_string_expr | sq_string_expr
 
-private insert_files ::= convert_to_string (TT2_PLUS !TT2_CLOSE_TAG convert_to_string) *
+private insert_files ::= convert_to_string (TT2_PLUS  convert_to_string) *
 private convert_to_string ::= <<parseFileAsString>>
 
 include_directive ::= TT2_INCLUDE variable_strings_or_files assign_expr * {pin=1}
@@ -276,7 +274,7 @@ perl_block ::= perl_directive end_directive
 rawperl_block ::= rawperl_directive end_directive
 
 use_directive ::= TT2_USE [use_instantiation] use_module {pin=1}
-private use_instantiation ::= use_instance TT2_ASSIGN !TT2_CLOSE_TAG
+private use_instantiation ::= use_instance TT2_ASSIGN
 use_instance ::= keyword_or_identifier_term
 private use_module ::= module_name [module_params]
 module_name ::= identifier_expr
@@ -327,17 +325,17 @@ block_directive ::= TT2_BLOCK block_name {pin=1}
 block_name ::= keyword_or_identifier_term
 
 anon_block ::= anon_block_directive chunk * end_directive // fake rule to make psi element
-anon_block_directive ::= identifier_expr TT2_ASSIGN !TT2_CLOSE_TAG TT2_BLOCK {pin=4}
+anon_block_directive ::= identifier_expr TT2_ASSIGN TT2_BLOCK {pin=4}
 
 hash_expr ::= TT2_LEFT_BRACE hash_expr_content TT2_RIGHT_BRACE {pin=1}
 private hash_expr_content ::= {hash_expr_item [TT2_COMMA]} *
 private hash_expr_item ::= pair_expr {pin=2 recoverWhile=recover_hash_expr_item}
-pair_expr ::= {string_argument | <<parseHashKey>>} TT2_ASSIGN !TT2_CLOSE_TAG expr
-private recover_hash_expr_item ::= !(TT2_DQ_OPEN|TT2_SQ_OPEN|TT2_IDENTIFIER|TT2_FORMAT|TT2_ON|TT2|OFF|TT2_RIGHT_BRACE|TT2_COMMA|TT2_HARD_NEWLINE|[TT2_MINUS]TT2_CLOSE_TAG|TT2_SEMI)
+pair_expr ::= {string_argument | <<parseHashKey>>} TT2_ASSIGN  expr
+private recover_hash_expr_item ::= !(TT2_DQ_OPEN|TT2_SQ_OPEN|TT2_IDENTIFIER|TT2_FORMAT|TT2_ON|TT2|OFF|TT2_RIGHT_BRACE|TT2_COMMA|TT2_SEMI)
 
 array_expr ::= TT2_LEFT_BRACKET array_expr_content TT2_RIGHT_BRACKET {pin=1}
 private array_expr_content ::= (expr [TT2_COMMA]) * {recoverWhile=recover_array_content}
-private recover_array_content ::= !(TT2_RIGHT_BRACKET|TT2_HARD_NEWLINE|[TT2_MINUS]TT2_CLOSE_TAG|TT2_SEMI)
+private recover_array_content ::= !(TT2_RIGHT_BRACKET|TT2_SEMI)
 
 expr ::=
 	assign_expr |
@@ -352,20 +350,20 @@ expr ::=
 	unary_expr |
 	term_expr
 
-assign_expr ::= identifier_expr TT2_ASSIGN !TT2_CLOSE_TAG expr {rightAssociative=true}
+assign_expr ::= identifier_expr TT2_ASSIGN expr {rightAssociative=true}
 ternar_expr ::= expr TT2_QUESTION expr TT2_COLON expr { rightAssociative=true }
 range_expr ::= expr TT2_RANGE expr
 or_expr ::= expr ((TT2_OR|TT2_OR_TEXT) expr )+
 and_expr ::= expr ((TT2_AND|TT2_AND_TEXT) expr)+
 equal_expr ::= expr (TT2_EQUAL|TT2_NOT_EQUAL) expr
 compare_expr ::= expr (TT2_LE|TT2_LT|TT2_GT|TT2_GE) expr
-add_expr ::= expr ((TT2_PLUS !TT2_CLOSE_TAG|TT2_MINUS !(TT2_CLOSE_TAG)|TT2_CONCAT) expr)+
+add_expr ::= expr ((TT2_PLUS|TT2_MINUS |TT2_CONCAT) expr)+
 mul_expr ::= expr ((TT2_MUL|TT2_DIV|TT2_MOD|TT2_DIV_TEXT|TT2_MOD_TEXT) expr)+
 unary_expr ::= (TT2_NOT|TT2_NOT_TEXT) expr {rightAssociative=true }
 
 parenthesised_expr ::= TT2_LEFT_PAREN parenthesised_item_content TT2_RIGHT_PAREN {pin=1}
 private parenthesised_item_content ::= expr {recoverWhile=recover_parenthesised_item}
-private recover_parenthesised_item ::= !(TT2_RIGHT_PAREN|TT2_HARD_NEWLINE|[TT2_MINUS]TT2_CLOSE_TAG|TT2_SEMI)
+private recover_parenthesised_item ::= !(TT2_RIGHT_PAREN|TT2_SEMI)
 
 identifier_expr ::= identifier_expr_content
 private identifier_expr_content ::= keyword_or_identifier_term (TT2_PERIOD deref_part)*
@@ -379,7 +377,7 @@ private deref_part ::=
 variable_expr ::= TT2_SIGIL_SCALAR {variable_braced|identifier_expr_content}
 private variable_braced ::= TT2_LEFT_BRACE variable_braced_content TT2_RIGHT_BRACE {pin=1}
 private variable_braced_content ::= identifier_expr_content {recoverWhile=recover_braced_variable}
-private recover_braced_variable ::= !(TT2_RIGHT_BRACE|TT2_HARD_NEWLINE|[TT2_MINUS]TT2_CLOSE_TAG|TT2_SEMI)
+private recover_braced_variable ::= !(TT2_RIGHT_BRACE|TT2_SEMI)
 
 call_expr ::= keyword_or_identifier_term call_arguments
 call_arguments ::= call_arguments_
@@ -403,10 +401,10 @@ term_expr ::=
 
 sq_string_expr ::= TT2_SQ_OPEN sq_string_content TT2_SQ_CLOSE {pin=1}
 private sq_string_content ::= TT2_STRING_CONTENT* {recoverWhile=recover_sq_string}
-private recover_sq_string ::= !(TT2_SQ_CLOSE|TT2_HARD_NEWLINE|[TT2_MINUS]TT2_CLOSE_TAG|TT2_SEMI)
+private recover_sq_string ::= !(TT2_SQ_CLOSE|TT2_SEMI)
 
 dq_string_expr ::= TT2_DQ_OPEN dq_string_content TT2_DQ_CLOSE {pin=1}
 private dq_string_content ::= TT2_STRING_CONTENT* {recoverWhile=recover_dq_string}
-private recover_dq_string ::= !(TT2_DQ_CLOSE|TT2_HARD_NEWLINE|[TT2_MINUS]TT2_CLOSE_TAG|TT2_SEMI)
+private recover_dq_string ::= !(TT2_DQ_CLOSE|TT2_SEMI)
 
 private keyword_or_identifier_term ::= <<parseIdentifier>>

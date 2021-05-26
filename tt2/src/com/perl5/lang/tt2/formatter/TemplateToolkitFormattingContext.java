@@ -73,7 +73,6 @@ final class TemplateToolkitFormattingContext extends PerlBaseFormattingContext {
       .before(TT2_CLOSE_TAG).spaces(1)
       .around(KEYWORDS_TOKENSET).spaces(1)
       .before(MACRO_CONTENT).spaces(1)
-      .before(DIRECTIVE_POSTFIX).spaces(1)
       .beforeInside(ASSIGN_EXPR, PROCESS_DIRECTIVE).spaces(1)
       .beforeInside(ASSIGN_EXPR, EXCEPTION_ARGS).spaces(1)
       .beforeInside(ASSIGN_EXPR, WRAPPER_DIRECTIVE).spaces(1)
