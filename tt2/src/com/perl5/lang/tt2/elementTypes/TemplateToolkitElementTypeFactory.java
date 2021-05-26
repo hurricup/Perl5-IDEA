@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 Alexandr Evstigneev
+ * Copyright 2015-2021 Alexandr Evstigneev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,15 +83,6 @@ public class TemplateToolkitElementTypeFactory extends PodElementTypeFactory {
         @Override
         public @NotNull PsiElement getPsiElement(@NotNull ASTNode node) {
           return new PsiAssignExprImpl(node);
-        }
-      };
-    }
-
-    if (name.equals("BLOCK_COMMENT")) {
-      return new TemplateToolkitElementType(name) {
-        @Override
-        public @NotNull PsiElement getPsiElement(@NotNull ASTNode node) {
-          return new PsiBlockCommentImpl(node);
         }
       };
     }

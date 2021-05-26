@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 Alexandr Evstigneev
+ * Copyright 2015-2021 Alexandr Evstigneev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,9 +46,6 @@ public class TemplateToolkitSyntaxAnnotator implements Annotator, TemplateToolki
     }
     else if (tokenType == DQ_STRING_EXPR) {
       targetKey = TemplateToolkitSyntaxHighlighter.TT2_DQ_STRING_KEY;
-    }
-    else if (tokenType == BLOCK_COMMENT) {
-      targetKey = TemplateToolkitSyntaxHighlighter.TT2_COMMENT_KEY;
     }
     if (targetKey != null) {
       PerlBaseAnnotator.createInfoAnnotation(holder, element, null, targetKey);

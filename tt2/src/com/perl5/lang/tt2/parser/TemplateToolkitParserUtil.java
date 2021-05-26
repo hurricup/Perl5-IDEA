@@ -20,7 +20,6 @@ import com.intellij.lang.LighterASTNode;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.WhitespacesBinders;
 import com.intellij.lang.parser.GeneratedParserUtilBase;
-import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import com.perl5.lang.tt2.TemplateToolkitBundle;
@@ -127,18 +126,6 @@ public class TemplateToolkitParserUtil extends GeneratedParserUtilBase implement
     return gotItem;
   }
 
-  public static boolean parseBlockComment(PsiBuilder b, int l) {
-    if (b.getTokenType() == TT2_OPEN_TAG && b.rawLookup(1) == LINE_COMMENT) {
-      PsiBuilder.Marker m = b.mark();
-      b.advanceLexer(); // open
-      b.advanceLexer(); // close  fixme add unclosed handling
-
-      m.done(BLOCK_COMMENT);
-      return true;
-    }
-    return false;
-  }
-
   public static boolean parseMacroBody(PsiBuilder b, int l) {
     boolean r = false;
     LighterASTNode latestDoneMarker = null;
@@ -166,82 +153,6 @@ public class TemplateToolkitParserUtil extends GeneratedParserUtilBase implement
       consumeToken(b, TT2_SEMI);
       consumeToken(b, TT2_CLOSE_TAG);
 
-      r = true;
-    }
-
-    processMarkers(b, l, latestDoneMarker, outerMarker);
-
-    return r;
-  }
-
-
-  public static boolean parseDirective(PsiBuilder b, int l) {
-    IElementType tokenType = b.getTokenType();
-    boolean r = false;
-    LighterASTNode latestDoneMarker = null;
-    PsiBuilder.Marker outerMarker = b.mark();
-    boolean isAfterSemi = tokenType != TT2_OPEN_TAG && tokenType != TT2_OUTLINE_TAG && isAfterSemi(b);
-
-    if (isAfterSemi || tokenType == TT2_OPEN_TAG) {
-      if (!isAfterSemi) {
-        b.advanceLexer();
-      }
-
-      if (TemplateToolkitParser.directive(b, l)) {
-        latestDoneMarker = b.getLatestDoneMarker();
-      }
-
-      if (latestDoneMarker == null || latestDoneMarker.getTokenType() != MACRO_DIRECTIVE) {
-        PsiBuilder.Marker m = null;
-        while (!b.eof()) {
-          if (isBlockEndMarker(b)) {
-            break;
-          }
-          if (m == null) {
-            m = b.mark();
-          }
-          b.advanceLexer();
-        }
-
-        if (m != null) {
-          m.error(TemplateToolkitBundle.message("ttk2.unexpected.token"));
-        }
-
-        consumeToken(b, TT2_SEMI);
-        consumeToken(b, TT2_CLOSE_TAG);
-      }
-      r = true;
-    }
-    else if (tokenType == TT2_OUTLINE_TAG) {
-      b.advanceLexer();
-
-      if (TemplateToolkitParser.directive(b, l)) {
-        latestDoneMarker = b.getLatestDoneMarker();
-      }
-
-      if (latestDoneMarker == null || latestDoneMarker.getTokenType() != MACRO_DIRECTIVE) {
-
-        PsiBuilder.Marker m = null;
-
-        while (!b.eof()) {
-          if (b.getTokenType() == TT2_HARD_NEWLINE) {
-            break;
-          }
-          if (m == null) {
-            m = b.mark();
-          }
-          b.advanceLexer();
-        }
-
-        if (m != null) {
-          m.error(TemplateToolkitBundle.message("ttk2.unexpected.token"));
-        }
-        // parseHardNewLine(b, l); // fixme this breaks lastMarker mechanism, need to figure out something
-        if (b.getTokenType() == TT2_HARD_NEWLINE) {
-          b.remapCurrentToken(TokenType.WHITE_SPACE); // this is irreversable change, so not sure it's a good idea
-          b.advanceLexer();
-        }
-      }
       r = true;
     }
 
@@ -319,7 +230,7 @@ public class TemplateToolkitParserUtil extends GeneratedParserUtilBase implement
    */
   public static boolean parseBlockContent(PsiBuilder b, int l, PsiBuilder.Marker outerMarker, IElementType blockTokenType) {
     boolean r = false;
-    while (!b.eof() && TemplateToolkitParser.element(b, l)) {
+    while (!b.eof() && TemplateToolkitParser.chunk(b, l)) {
       LighterASTNode latestDoneMarker = b.getLatestDoneMarker();
       if (latestDoneMarker != null && latestDoneMarker.getTokenType() == END_DIRECTIVE) {
         r = true;
@@ -363,7 +274,7 @@ public class TemplateToolkitParserUtil extends GeneratedParserUtilBase implement
       perlMarker.drop();
     }
 
-    if (TemplateToolkitParser.element(b, l)) {
+    if (TemplateToolkitParser.chunk(b, l)) {
       LighterASTNode latestDoneMarker = b.getLatestDoneMarker();
 
       if (latestDoneMarker != null && latestDoneMarker.getTokenType() == END_DIRECTIVE) {
@@ -394,7 +305,7 @@ public class TemplateToolkitParserUtil extends GeneratedParserUtilBase implement
   public static boolean parseIfSequence(PsiBuilder b, int l, PsiBuilder.Marker branchMarker, IElementType branchTokenType) {
     while (!b.eof()) {
       PsiBuilder.Marker currentMarker = b.mark();
-      if (TemplateToolkitParser.element(b, l)) {
+      if (TemplateToolkitParser.chunk(b, l)) {
         LighterASTNode latestDoneMarker = b.getLatestDoneMarker();
         if (latestDoneMarker != null) {
           if (latestDoneMarker.getTokenType() == END_DIRECTIVE) {
@@ -440,7 +351,7 @@ public class TemplateToolkitParserUtil extends GeneratedParserUtilBase implement
   public static boolean parseTryCatchBlock(PsiBuilder b, int l, PsiBuilder.Marker branchMarker, IElementType branchTokenType) {
     while (!b.eof()) {
       PsiBuilder.Marker currentMarker = b.mark();
-      if (TemplateToolkitParser.element(b, l)) {
+      if (TemplateToolkitParser.chunk(b, l)) {
         LighterASTNode latestDoneMarker = b.getLatestDoneMarker();
         if (latestDoneMarker != null) {
           if (latestDoneMarker.getTokenType() == END_DIRECTIVE) {
@@ -487,7 +398,7 @@ public class TemplateToolkitParserUtil extends GeneratedParserUtilBase implement
     PsiBuilder.Marker branchMarker = null;
     while (!b.eof()) {
       PsiBuilder.Marker currentMarker = b.mark();
-      if (TemplateToolkitParser.element(b, l)) {
+      if (TemplateToolkitParser.chunk(b, l)) {
         LighterASTNode latestDoneMarker = b.getLatestDoneMarker();
         if (latestDoneMarker != null) {
           if (latestDoneMarker.getTokenType() == END_DIRECTIVE) {
@@ -534,33 +445,6 @@ public class TemplateToolkitParserUtil extends GeneratedParserUtilBase implement
     }
 
     return true;
-  }
-
-  public static boolean parseSetElement(PsiBuilder b, int l) {
-    PsiBuilder.Marker m = b.mark();
-    if (TemplateToolkitParser.parse_set_element(b, l)) {
-      m.done(ASSIGN_EXPR);
-      return true;
-    }
-    m.drop();
-    return false;
-  }
-
-  protected static boolean isAfterSemi(PsiBuilder b) {
-    int offset = -1;
-    IElementType tokenType;
-
-    while ((tokenType = b.rawLookup(offset)) != null) {
-      if (tokenType == TT2_SEMI) {
-        return true;
-      }
-      if (!TemplateToolkitParserDefinition.WHITESPACES_AND_COMMENTS.contains(tokenType)) {
-        return false;
-      }
-      offset--;
-    }
-
-    return false;
   }
 
   public static boolean parseKeywordFallback(PsiBuilder b, int l) {

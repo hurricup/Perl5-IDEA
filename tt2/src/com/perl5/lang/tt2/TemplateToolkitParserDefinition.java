@@ -42,7 +42,6 @@ public class TemplateToolkitParserDefinition implements ParserDefinition, Templa
   public static final TokenSet COMMENTS = TokenSet.create(
     TT2_HTML,
     LINE_COMMENT,
-    BLOCK_COMMENT,
     TT2_OPEN_TAG,
     TT2_CLOSE_TAG,
     TT2_OUTLINE_TAG
@@ -54,10 +53,6 @@ public class TemplateToolkitParserDefinition implements ParserDefinition, Templa
 
   public static final TokenSet LITERALS = TokenSet.create(
     TT2_STRING_CONTENT
-  );
-
-  public static final TokenSet IDENTIFIERS = TokenSet.create(
-    TT2_IDENTIFIER
   );
 
   @Override
