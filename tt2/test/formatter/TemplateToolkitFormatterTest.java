@@ -51,6 +51,11 @@ public class TemplateToolkitFormatterTest extends TemplateToolkitLightTestCase {
   }
 
   @Test
+  public void testSetList() {
+    doFormatTest();
+  }
+
+  @Test
   public void testArray() {
     doFormatTest();
   }

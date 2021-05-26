@@ -1,0 +1,28 @@
+[%  foo  =  bar  ,    baz  =  blah  %]
+[%  foo  =  bar  baz  =  blah  so  =  on  %]
+[%  SET  foo  =  bar  ,    baz  =  blah  %]
+[%  SET  foo  =  bar  baz  =  blah  so  =  on  %]
+[%  DEFAULT  foo  =  bar  ,    baz  =  blah  %]
+[%  DEFAULT  foo  =  bar  baz  =  blah  so  =  on  %]
+
+[%  foo  =  bar  ,    baz  =  blah  ;
+foo  =  bar  baz  =  blah  so  =  on    ;
+SET  foo  =  bar  ,    baz  =  blah    ;
+SET  foo  =  bar  baz  =  blah  so  =  on    ;
+DEFAULT  foo  =  bar  ,    baz  =  blah    ;
+DEFAULT  foo  =  bar  baz  =  blah  so  =  on  %]
+<div>
+[%  foo  =  bar  ,    baz  =  blah  %]
+[%  foo  =  bar  baz  =  blah  so  =  on  %]
+[%  SET  foo  =  bar  ,    baz  =  blah  %]
+[%  SET  foo  =  bar  baz  =  blah  so  =  on  %]
+[%  DEFAULT  foo  =  bar  ,    baz  =  blah  %]
+[%  DEFAULT  foo  =  bar  baz  =  blah  so  =  on  %]
+
+[%  foo  =  bar  ,    baz  =  blah  ;
+foo  =  bar  baz  =  blah  so  =  on    ;
+SET  foo  =  bar  ,    baz  =  blah    ;
+SET  foo  =  bar  baz  =  blah  so  =  on    ;
+DEFAULT  foo  =  bar  ,    baz  =  blah    ;
+DEFAULT  foo  =  bar  baz  =  blah  so  =  on  %]
+</div>

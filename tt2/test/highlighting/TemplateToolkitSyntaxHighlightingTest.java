@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 Alexandr Evstigneev
+ * Copyright 2015-2021 Alexandr Evstigneev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,11 @@ public class TemplateToolkitSyntaxHighlightingTest extends TemplateToolkitLightT
   @Override
   protected String getBaseDataPath() {
     return "testData/highlighting/syntax";
+  }
+
+  @Test
+  public void testSetList() {
+    doTest();
   }
 
   @Test
