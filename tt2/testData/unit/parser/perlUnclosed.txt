@@ -43,11 +43,12 @@ HtmlFile:perlUnclosed.tt
 Subtree: Template Toolkit 2 (Template Toolkit 2)
 Template Toolkit File
   PsiComment(TT2: TT2_HTML)('<html>\n<head>http://template-toolkit.org/docs/manual/Variables.html</head>\n<body>\n\n')
-  PsiErrorElement:Unclosed perl block, missing END
-    PsiPerlBlockImpl(TT2: PERL_BLOCK)
-      PsiElement(TT2: [%)('[%')
-      PsiPerlDirectiveImpl(TT2: PERL_DIRECTIVE)
-        PsiElement(TT2: PERL)('PERL')
-      PsiElement(TT2: %])('%]')
-      PsiComment(TT2: TT2_HTML)('\n   print $context->include('myfile');\n   print $stash;\n   print $output;\n   print $error;\n\n\n</body>\n</html>')
+  PsiComment(TT2: [%)('[%')
+  PsiPerlBlockImpl(TT2: PERL_BLOCK)
+    PsiPerlDirectiveImpl(TT2: PERL_DIRECTIVE)
+      PsiElement(TT2: PERL)('PERL')
+    PsiErrorElement:TT2: END expected
+      <empty list>
+  PsiComment(TT2: %])('%]')
+  PsiComment(TT2: TT2_HTML)('\n   print $context->include('myfile');\n   print $stash;\n   print $output;\n   print $error;\n\n\n</body>\n</html>')
 --------------------------------------------------------------------------------

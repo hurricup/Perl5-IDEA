@@ -35,7 +35,7 @@ HtmlFile:meta.tt
 Subtree: Template Toolkit 2 (Template Toolkit 2)
 Template Toolkit File
   PsiComment(TT2: TT2_HTML)('<html>\n<head>http://template-toolkit.org/docs/manual/Variables.html</head>\n<body>\n\n')
-  PsiElement(TT2: [%)('[%')
+  PsiComment(TT2: [%)('[%')
   PsiMetaDirectiveImpl(TT2: META_DIRECTIVE)
     PsiElement(TT2: META)('META')
     PsiPairExprImpl(TT2: PAIR_EXPR)
@@ -71,6 +71,6 @@ Template Toolkit File
       PsiElement(TT2: =)('=')
       PsiTermExprImpl(TT2: TERM_EXPR)
         PsiElement(TT2: TT2_NUMBER)('1.23')
-  PsiElement(TT2: %])('%]')
+  PsiComment(TT2: %])('%]')
   PsiComment(TT2: TT2_HTML)('\n\n\n\n</body>\n</html>')
 --------------------------------------------------------------------------------
