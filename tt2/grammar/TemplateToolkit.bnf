@@ -196,7 +196,8 @@ private atomdir ::=
   wrapper_block |
   filter_block
 
-left conditional_expr ::=
+left conditional_expr ::= condition_item +
+private condition_item ::=
   if_directive |
   unless_directive |
   foreach_directive |
