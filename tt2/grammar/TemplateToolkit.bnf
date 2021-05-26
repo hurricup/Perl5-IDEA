@@ -292,8 +292,8 @@ exception_args ::= {assign_expr|expr}+
 switch_directive ::= TT2_SWITCH expr {pin=1}
 case_directive ::= TT2_CASE [TT2_DEFAULT|expr] {pin=1}
 
-switch_block ::= switch_directive case_block * end_directive 
-case_block ::= case_directive chunk *
+switch_block ::= switch_directive ';' case_block * end_directive {pin=1}
+case_block ::= case_directive ';' chunk * {pin=1}
 
 if_directive ::= TT2_IF expr {pin=1}
 unless_directive ::= TT2_UNLESS expr {pin=1}
