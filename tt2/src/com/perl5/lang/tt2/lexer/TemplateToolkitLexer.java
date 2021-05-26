@@ -18,6 +18,7 @@ package com.perl5.lang.tt2.lexer;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.perl5.lang.perl.lexer.PerlLexerWithCustomStates;
 import com.perl5.lang.tt2.idea.settings.TemplateToolkitSettings;
@@ -111,7 +112,9 @@ public class TemplateToolkitLexer extends TemplateToolkitLexerGenerated implemen
     else if (currentCustomState == LEX_TEMPLATE_LINE) {
       if (buffer.charAt(tokenStart) == '\n') {
         endTemplate(tokenStart, 1);
-        return TT2_HARD_NEWLINE;
+        pushPreparsedToken(getTokenStart(), getTokenEnd(), TokenType.WHITE_SPACE);
+        setTokenEnd(getTokenStart());
+        return TT2_SEMI;
       }
       else if (isLineComment(buffer, tokenStart, bufferEnd)) {
         return lexLineComment(buffer, tokenStart, bufferEnd);
