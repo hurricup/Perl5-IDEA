@@ -205,7 +205,7 @@ private condition_item ::=
   wrapper_directive |
   filter_directive
 
-capture ::= identifier_expr TT2_ASSIGN mdir
+capture ::= identifier_expr TT2_ASSIGN mdir {pin=2}
 
 private mdir ::= directive | anon_block
 
@@ -341,7 +341,6 @@ private array_expr_content ::= (expr [TT2_COMMA]) * {recoverWhile=recover_array_
 private recover_array_content ::= !(TT2_RIGHT_BRACKET|TT2_SEMI)
 
 expr ::=
-	assign_expr |
 	ternar_expr |
 	range_expr |
 	or_expr |
@@ -351,6 +350,7 @@ expr ::=
 	add_expr |
 	mul_expr |
 	unary_expr |
+	parenthesised_expr |
 	term_expr
 
 assign_expr ::= identifier_expr TT2_ASSIGN expr {rightAssociative=true}
@@ -365,7 +365,8 @@ mul_expr ::= expr ((TT2_MUL|TT2_DIV|TT2_MOD|TT2_DIV_TEXT|TT2_MOD_TEXT) expr)+
 unary_expr ::= (TT2_NOT|TT2_NOT_TEXT) expr {rightAssociative=true }
 
 parenthesised_expr ::= TT2_LEFT_PAREN parenthesised_item_content TT2_RIGHT_PAREN {pin=1}
-private parenthesised_item_content ::= expr {recoverWhile=recover_parenthesised_item}
+private parenthesised_item_content ::= assign_expr | expr {recoverWhile=recover_parenthesised_item}
+
 private recover_parenthesised_item ::= !(TT2_RIGHT_PAREN|TT2_SEMI)
 
 identifier_expr ::= identifier_expr_content

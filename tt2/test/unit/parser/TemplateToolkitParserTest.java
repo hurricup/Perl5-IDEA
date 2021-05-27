@@ -31,6 +31,11 @@ public class TemplateToolkitParserTest extends PerlParserTestBase {
   }
 
   @Test
+  public void testPostfixString() {
+    doTest();
+  }
+
+  @Test
   public void testSetList() {
     doTest();
   }

@@ -52,9 +52,9 @@ HtmlFile:multiDirectivesBlocks.tt
 Subtree: Template Toolkit 2 (Template Toolkit 2)
 Template Toolkit File
   PsiComment(TT2: TT2_HTML)('<html>\n<head></head>\n<body>\n')
+  PsiComment(TT2: [%)('[%')
   PsiIfBlockImpl(TT2: IF_BLOCK)
     PsiIfBranchImpl(TT2: IF_BRANCH)
-      PsiElement(TT2: [%)('[%')
       PsiIfDirectiveImpl(TT2: IF_DIRECTIVE)
         PsiElement(TT2: IF)('IF')
         PsiIdentifierExprImpl(TT2: IDENTIFIER_EXPR)

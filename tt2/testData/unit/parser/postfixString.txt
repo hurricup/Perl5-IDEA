@@ -1,0 +1,24 @@
+Subtree: HTML (HTML)
+HtmlFile:postfixString.tt
+  PsiElement(HTML_DOCUMENT)
+    PsiElement(XML_PROLOG)
+      <empty list>
+  PsiElement(TT2: TT2_OUTER)('[% "Groups:\n" IF loop.first; %]')
+--------------------------------------------------------------------------------
+Subtree: Template Toolkit 2 (Template Toolkit 2)
+Template Toolkit File
+  PsiComment(TT2: [%)('[%')
+  PsiElement(TT2: DQ_OPEN)('"')
+  PsiElement(TT2: STRING_CONTENT)('Groups')
+  PsiElement(TT2: STRING_CONTENT)(':')
+  PsiElement(TT2: STRING_CONTENT)('\')
+  PsiElement(TT2: STRING_CONTENT)('n')
+  PsiElement(TT2: DQ_CLOSE)('"')
+  PsiErrorElement:<expr>, TT2: , or TT2: ; expected, got 'IF'
+    PsiElement(TT2: IF)('IF')
+  PsiElement(TT2: TT2_IDENTIFIER)('loop')
+  PsiElement(TT2: .)('.')
+  PsiElement(TT2: TT2_IDENTIFIER)('first')
+  PsiElement(TT2: ;)(';')
+  PsiComment(TT2: %])('%]')
+--------------------------------------------------------------------------------
