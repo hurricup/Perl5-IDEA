@@ -1,72 +1,31 @@
 <html>
 <head></head>
 <body>
-[% FILTER html FILTER foo FILTER bar FILTER something(123) %]
+[% FILTER html %]
    HTML text may have < and > characters embedded
    which you want converted to the correct HTML entities.
 [% END %]
 
-[% FILTER html FILTER foo FILTER bar FILTER something(123) %]
+[% FILTER something(123) %]
    HTML text may have < and > characters embedded
    which you want converted to the correct HTML entities.
 [% END %]
 
-%% WRAPPER section title = 'Quantum Mechanics' FILTER foo FILTER bar FILTER something(123)
-   Quantum mechanics is a very interesting subject wish
-   should prove easy for the layman to fully comprehend.
+[% FILTER $myfilter %]
+   HTML text may have < and > characters embedded
+   which you want converted to the correct HTML entities.
 [% END %]
 
-[% DEBUG on  FILTER foo FILTER bar FILTER something(123) %]
-directive debugging is on (assuming DEBUG option is set true)
-%% DEBUG off
-directive debugging is off
+%% INCLUDE something FILTER foo FILTER bar FILTER something(123)
+[% INCLUDE something FILTER foo FILTER bar FILTER something(123) %]
 
-[% DEBUG on | foo | bar | something(123) %]
-directive debugging is on (assuming DEBUG option is set true)
-%% DEBUG off | foo | bar | something(123)
-directive debugging is off
+[% FILTER echo = repeat(2) %]
+Is there anybody out there?
+[% END %]
 
-[% NEXT  FILTER foo FILTER bar FILTER something(123) %]
-directive debugging is on (assuming DEBUG option is set true)
-%% NEXT | foo | bar | something(123)
-directive debugging is off
-
-[% LAST FILTER foo FILTER bar FILTER something(123) %]
-directive debugging is on (assuming DEBUG option is set true)
-%% LAST | foo | bar | something(123)
-directive debugging is off
-
-[% RETURN FILTER foo FILTER bar FILTER something(123) %]
-directive debugging is on (assuming DEBUG option is set true)
-%% RETURN | foo | bar | something(123)
-directive debugging is off
-
-[% STOP FILTER foo FILTER bar FILTER something(123) %]
-directive debugging is on (assuming DEBUG option is set true)
-%% STOP | foo | bar | something(123)
-directive debugging is off
-
-[% CLEAR FILTER foo FILTER bar FILTER something(123) %]
-directive debugging is on (assuming DEBUG option is set true)
-%% CLEAR | foo | bar | something(123)
-directive debugging is off
-
-[% LAST FILTER foo FILTER bar FILTER something(123) %]
-directive debugging is on (assuming DEBUG option is set true)
-%% LAST | foo | bar | something(123)
-directive debugging is off
-
-[% DEFAULT
-    name = 'John Doe'
-    id   = 'jdoe'
-    FILTER foo FILTER bar FILTER something(123)
-%]
-
-[% DEFAULT
-    name = 'John Doe'
-    id   = 'jdoe'
-    | foo | bar | something(123)
-%]
+[% FILTER echo %]
+Mother, should I build a wall?
+[% END %]
 
 insert_directive
 [% INSERT myfile FILTER foo FILTER bar FILTER something(123) %]
@@ -83,7 +42,7 @@ insert_directive
 [% INSERT "$language/$legalese" | foo | bar | something(123) %]  # en/misc/legalese.txt
 [% INSERT legalese.txt + warning.txt | foo | bar | something(123) %]
 
-include_directive
+INCLUDE_directive
 [% INCLUDE myfile FILTER foo FILTER bar FILTER something(123) %]
 [% INCLUDE /etc/passwd FILTER foo FILTER bar FILTER something(123) %]    # file error: ABSOLUTE not set
 [% INCLUDE 'dos98/Program Files/stupid' FILTER foo FILTER bar FILTER something(123) %]
@@ -156,23 +115,11 @@ test text
 test text
 
 set_directive
-[% foo  = 'Foo'
-   bar  = foo
-   cost = '$100'
-   item = "$bar: ${cost}.00"
-   FILTER foo FILTER bar FILTER something(123)
-%]
 [% SET foo  = 'Foo'
    bar  = foo
    cost = '$100'
    item = "$bar: ${cost}.00"
    FILTER foo FILTER bar FILTER something(123)
-%]
-[% foo  = 'Foo'
-   bar  = foo
-   cost = '$100'
-   item = "$bar: ${cost}.00"
-   | foo | bar | something(123)
 %]
 [% SET foo  = 'Foo'
    bar  = foo
@@ -186,10 +133,6 @@ get_directive
 %% GET foo FILTER foo FILTER bar FILTER something(123)
 [% GET foo | foo | bar | something(123) %]
 %% GET foo | foo | bar | something(123)
-[% foo FILTER foo FILTER bar FILTER something(123) %]
-%% foo FILTER foo FILTER bar FILTER something(123)
-[% foo | foo | bar | something(123) %]
-%% foo | foo | bar | something(123)
 
 
 </body>

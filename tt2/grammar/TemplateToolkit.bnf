@@ -176,7 +176,7 @@ private directive ::=
   try_catch_block |
   perl_block
 
-private setlist ::= assign_expr {','* assign_expr} *
+private setlist ::= assign_expr {TT2_COMMA * assign_expr} *
 
 private atomdir ::=
   get_directive |
@@ -216,9 +216,6 @@ set_directive ::= TT2_SET setlist {pin=1}
 
 default_directive ::= TT2_DEFAULT setlist  {pin=1}
 
-insert_directive ::= TT2_INSERT variable_strings_or_files  {pin=1}
-
-private variable_strings_or_files ::= variable_or_strings | insert_files
 private variable_strings_or_stringify ::= variable_or_strings | convert_to_string
 private variable_or_strings ::= variable_expr | strings_argument
 
@@ -230,7 +227,7 @@ clear_directive ::= TT2_CLEAR  {pin=1}
 tags_directive ::= TT2_TAGS <<parseTags>> {pin=1}
 meta_directive ::= TT2_META pair_expr + {pin=1}
 
-debug_directive ::= TT2_DEBUG {TT2_ON|TT2_OFF|debug_format}  {pin=1}
+debug_directive ::= TT2_DEBUG {TT2_ON|TT2_OFF|debug_format}  {pin=1} // originally uses nameargs
 debug_format ::= TT2_FORMAT format_elements {pin=1}
 private format_elements ::=
 	variable_expr |
@@ -251,11 +248,16 @@ private string_argument ::= dq_string_expr | sq_string_expr
 private insert_files ::= convert_to_string (TT2_PLUS  convert_to_string) *
 private convert_to_string ::= <<parseFileAsString>>
 
-include_directive ::= TT2_INCLUDE variable_strings_or_files assign_expr * {pin=1}
+insert_directive ::= TT2_INSERT nameargs  {pin=1}
+include_directive ::= TT2_INCLUDE nameargs {pin=1}
+process_directive ::= TT2_PROCESS nameargs {pin=1}
+wrapper_directive ::= TT2_WRAPPER nameargs {pin=1}
 
-process_directive ::= TT2_PROCESS variable_strings_or_files assign_expr * {pin=1}
-
-wrapper_directive ::= TT2_WRAPPER variable_strings_or_files assign_expr * {pin=1}
+ // this should be cleaned up according to original grammar
+private nameargs ::= {variable_or_strings | insert_files} [args]
+private args ::= { expr | param | TT2_COMMA | assign_expr } +
+private param ::= item TT2_ASSIGN expr
+private item ::= variable_expr
 
 filter_directive ::= TT2_FILTER filter_arguments  {pin=1}
 private filter_arguments ::= variable_expr | assign_expr | identifier_expr
@@ -285,7 +287,7 @@ module_params ::= call_arguments_
 while_directive ::= TT2_WHILE expr {pin=1}
 while_block ::= while_directive ';' chunk* end_directive {pin=1}
 
-throw_directive ::= TT2_THROW exception_type exception_message [exception_args]  {pin=1}
+throw_directive ::= TT2_THROW exception_type exception_message [exception_args]  {pin=1} // originally uses nameargs
 exception_type ::= variable_strings_or_stringify
 exception_message ::= expr
 exception_args ::= {assign_expr|expr}+
