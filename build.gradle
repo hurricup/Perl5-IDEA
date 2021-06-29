@@ -158,8 +158,8 @@ pluginProjects.forEach {
   def changes = it.file(changesFile)
   it.patchPluginXml {
     inputs.files(description, changes)
-    pluginDescription(description.text)
-    changeNotes(changes.text)
+    pluginDescription = description.text
+    changeNotes = changes.text
   }
 }
 
