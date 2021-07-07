@@ -25,7 +25,6 @@
 
   <depends>com.intellij.modules.lang</depends>
 
-  <depends optional="true" config-file="plugin-ultimate.xml">com.intellij.modules.ultimate</depends>
   <depends optional="true" config-file="perl-intellilang.xml">org.intellij.intelliLang</depends>
   <depends optional="true" config-file="perl-idea.xml">com.intellij.modules.java</depends>
   <depends optional="true" config-file="perl-copyright.xml">com.intellij.copyright</depends>
@@ -36,6 +35,12 @@
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="/META-INF/perl-debugger.xml" xpointer="xpointer(/idea-plugin/*)"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="/META-INF/perl-perlbrew.xml" xpointer="xpointer(/idea-plugin/*)"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="/META-INF/perl-plenv.xml" xpointer="xpointer(/idea-plugin/*)"/>
+
+  <content>
+    <module name="perl5.plugin.profiler"/>
+    <module name="perl5.plugin.docker"/>
+    <module name="perl5.plugin.wsl"/>
+  </content>
 
   <extensionPoints>
     <extensionPoint name="packageProcessor" beanClass="com.perl5.lang.perl.idea.EP.PerlPackageProcessorEP">

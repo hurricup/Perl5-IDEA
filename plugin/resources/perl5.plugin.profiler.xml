@@ -14,7 +14,12 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin>
+<idea-plugin package="com.perl5.lang.perl.profiler">
+  <dependencies>
+    <module name="intellij.profiler.common"/>
+    <module name="com.intellij.modules.ultimate"/>
+  </dependencies>
+
   <extensions defaultExtensionNs="com.intellij">
     <profiler.profilerConfigurationType implementation="com.perl5.lang.perl.profiler.configuration.PerlProfilerConfigurationType"/>
     <programRunner implementation="com.perl5.lang.perl.profiler.run.PerlProfilerProgramRunner"/>

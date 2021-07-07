@@ -14,21 +14,20 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin url="https://github.com/hurricup/Perl5-IDEA">
-  <module value="com.perl5.transport.wsl"/>
+<idea-plugin package="com.perl5.lang.perl.idea.sdk.host.docker">
+  <dependencies>
+    <module name="intellij.clouds.docker.remoteRun"/>
+    <module name="com.intellij.modules.ultimate"/>
+  </dependencies>
 
-  <!-- please  see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
-       on how to target different products  -->
   <extensions defaultExtensionNs="com.perl5">
-    <hostHandler key="wsl"
-                 implementationClass="com.perl5.lang.perl.idea.sdk.host.wsl.PerlWslHandler"/>
+    <hostHandler key="docker"
+                 implementationClass="com.perl5.lang.perl.idea.sdk.host.docker.PerlDockerHandler"/>
   </extensions>
 
   <extensions defaultExtensionNs="com.intellij">
-    <consoleInputFilterProvider implementation="com.perl5.lang.perl.idea.sdk.host.wsl.PerlWslInputFilterProvider"/>
+    <projectService serviceImplementation="com.perl5.lang.perl.idea.sdk.host.docker.PerlDockerProjectSettings"/>
   </extensions>
 
-  <applicationListeners>
-    <listener class="com.perl5.lang.perl.idea.sdk.host.wsl.PerlWslPreloader" topic="com.intellij.ide.AppLifecycleListener"/>
-  </applicationListeners>
+
 </idea-plugin>
