@@ -857,4 +857,7 @@ public class PerlFormatterSpacingTest extends PerlFormatterTestCase {
 
   @Test
   public void testIssue1782() {doFormatTest();}
+
+  @Test
+  public void testChainedArrayOperation() {doFormatTest();}
 }

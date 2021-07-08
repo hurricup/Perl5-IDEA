@@ -410,4 +410,19 @@ public interface PerlFormattingTokenSets extends PerlElementTypes {
   TokenSet FORMATTING_RANGE_EDGE_ELEMENTS = TokenSet.orSet(
     COMPOUND_STATEMENTS, TokenSet.create(NAMESPACE_DEFINITION)
   );
+
+  TokenSet CHAINED_ARRAY_OPERATION_TOKENS = TokenSet.create(
+    GREP_EXPR,
+    MAP_EXPR,
+    SORT_EXPR,
+    KEYS_EXPR,
+    VALUES_EXPR,
+    EACH_EXPR,
+    SPLICE_EXPR,
+    ARRAY_VARIABLE,
+    ARRAY_CAST_EXPR,
+    SUB_CALL,
+    CALL_ARGUMENTS
+  );
+
 }

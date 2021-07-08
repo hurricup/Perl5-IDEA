@@ -1,0 +1,68 @@
+grep {}
+        sort {}
+        map {}
+        @ARGV;
+
+my @arr = grep {}
+        sort {}
+        map {}
+        @ARGV;
+
+
+sub array_fn(@) {
+
+}
+
+grep {}
+        array_fn
+        sort {}
+        @ARGV;
+
+grep {}
+        sort {}
+        array_fn
+        @ARGV;
+
+sub block_array_fn(&@) {
+
+}
+
+grep {}
+        block_array_fn {}
+        sort {}
+        @ARGV;
+
+grep {}
+        sort {}
+        block_array_fn {}
+        @ARGV;
+
+my @array =
+        grep {}
+        sort {}
+        block_array_fn {}
+        @ARGV;
+
+my @array =
+        block_array_fn {}
+        grep {}
+        sort {}
+        @ARGV;
+
+my @array = block_array_fn {}
+        grep {}
+        sort {}
+        @ARGV;
+
+my @array = array_fn
+        grep {}
+        sort {}
+        @ARGV;
+
+my @array = array_fn grep {}
+        sort {}
+        @ARGV;
+
+my @array = grep {}
+        array_fn sort {}
+        @ARGV;
